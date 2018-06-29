@@ -1,0 +1,10 @@
+/vendor
+/.idea
+composer.phar
+.DS_Store
+Thumbs.db
+_ide_helper.php
+
+.phpstorm.meta.php
+.env
+node_modules/
