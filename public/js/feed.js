@@ -21,15 +21,11 @@ $(function() {
             $('.js-open-add-feed-form').on('click', function (e) {
                 e.preventDefault();
 
-                Feed.hideForms();
-
-                $('.add-feed-popup').show();
+                $('#modal-add-feed').modal();
             });
 
             $('.js-open-update-feed-form').on('click', function (e) {
                 e.preventDefault();
-
-                Feed.hideForms();
 
                 let feedId = $(this).closest('li').data('id'),
                     feedUrl = $(this).closest('li').data('url'),
@@ -38,13 +34,7 @@ $(function() {
                 form.find('input[name="feed_id"]').val(feedId);
                 form.find('input[name="url"]').val(feedUrl);
 
-                $('.update-feed-form').show();
-            });
-
-            $('.js-close-forms').on('click', function (e) {
-                e.preventDefault();
-
-                Feed.hideForms();
+                $('#modal-edit-feed').modal();
             });
 
             $('.js-update-feed').on('click', function (e) {
@@ -94,10 +84,6 @@ $(function() {
 
                 Feed.loadPosts();
             });
-        },
-        hideForms: function () {
-            $('.add-feed-popup').hide();
-            $('.update-feed-form').hide();
         },
         loadPosts: function () {
             let data = {
