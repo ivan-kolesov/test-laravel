@@ -20,16 +20,18 @@ class FeedContentController extends Controller
         return new JsonResponse($this->feedContentRepository->find($contentRequest));
     }
 
-    public function markAsRead($id): JsonResponse
+    public function markAsRead(): JsonResponse
     {
-        $this->feedContentRepository->markRead((int)$id, true);
+        $id = (int)request('id');
+        $this->feedContentRepository->markRead($id, true);
 
         return new JsonResponse();
     }
 
-    public function markAsUnread($id): JsonResponse
+    public function markAsUnread(): JsonResponse
     {
-        $this->feedContentRepository->markRead((int)$id, false);
+        $id = (int)request('id');
+        $this->feedContentRepository->markRead($id, false);
 
         return new JsonResponse();
     }

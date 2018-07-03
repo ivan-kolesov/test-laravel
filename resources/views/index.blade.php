@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('scripts')
-    <script type="text/javascript" src="/js/feed.js"></script>
+    {!! HTML::script('js/feed.js') !!}
     <script type="text/javascript">
         let selectedFeed = '{{ $selectedFeed }}';
     </script>

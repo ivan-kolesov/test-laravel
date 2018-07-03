@@ -54,7 +54,7 @@ class FeedContentRepository
 
     public function markRead(int $id, bool $status): void
     {
-        $this->feedContent->find($id);
+        $this->feedContent = $this->feedContent->find($id);
 
         $this->feedContent->read = $status;
 
@@ -67,11 +67,9 @@ class FeedContentRepository
             $this->feedContent = $this->feedContent->where('created_at', '<', $contentRequest->get('from_date'));
         }
 
-        if ($contentRequest->get('read') === null) {
-            $this->feedContent = $this->feedContent->where('read', false);
-        }
-
-        return $this->feedContent->where('feed_id', $contentRequest->feed_id)
+        return $this->feedContent
+            ->where('feed_id', $contentRequest->feed_id)
+            ->where('read', $contentRequest->get('read') ?? false)
             ->latest()
             ->take(ContentRequest::PER_PAGE)
             ->get();

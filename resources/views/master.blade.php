@@ -12,14 +12,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
+    {!! HTML::style('css/application.css') !!}
+
 </head>
 
 <body>
 
 @yield('content')
 
-<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="/js/application.js"></script>
+{{ HTML::script('js/jquery-3.3.1.min.js') }}
+{{ HTML::script('js/application.js') }}
 
 @yield('scripts')
 

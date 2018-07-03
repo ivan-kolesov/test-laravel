@@ -177,6 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Collective\Html\HtmlServiceProvider::class,
         willvincent\Feeds\FeedsServiceProvider::class,
         App\Providers\FeedServiceProvider::class,
 
@@ -229,6 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'HTML' => Collective\Html\HtmlFacade::class,
         'Feeds' => willvincent\Feeds\Facades\FeedsFacade::class,
 
     ],

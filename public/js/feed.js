@@ -47,10 +47,9 @@ $(function() {
         e.preventDefault();
 
         let form = $(this).closest('form'),
-            url = form.find('input[name="feed_id"]').val(),
             data = {
                 _token: application.getCsrfToken(),
-                id: url,
+                id: form.find('input[name="feed_id"]').val(),
                 url: form.find('input[name="url"]').val()
             };
 
@@ -63,6 +62,7 @@ $(function() {
         e.preventDefault();
 
         Feed.selectedFeed = $(this).closest('li').data('id');
+        Feed.fromDate = null;
         Feed.clearPosts();
         Feed.loadPosts();
     });
@@ -109,9 +109,21 @@ $(function() {
             $.post('/feed/get_content', data, function (response) {
                 let fromDate;
                 response.forEach(function (post) {
-                    $('.feed-post-list').append('<li>' + post.description + '</li>');
+                    let postHtml = '<li data-id="' + post.id + '">';
+                    postHtml += '<span class="date">' + post.created_at + '</span>';
+                    postHtml += '<span class="title">' + post.title + '</span>';
+                    postHtml += '<span class="description">' + post.description + '</span>';
+                    postHtml += '<span class="link"><a href="' + post.permalink + '" target="_blank">Read more</a></link>';
+                    postHtml += '</li>';
+                    $('.feed-post-list').append(postHtml);
 
                     fromDate = post.created_at;
+                });
+
+                $('.feed-post-list li').not('.read').off('click').on('click', function () {
+                    $(this).addClass('read').off('click');
+                    let postId = $(this).data('id');
+                    Feed.postMarkRead(postId);
                 });
 
                 if (fromDate !== undefined) {
@@ -124,6 +136,14 @@ $(function() {
         },
         clearPosts: function () {
             $('.feed-post-list').html('');
+        },
+        postMarkRead: function (postId) {
+            let data = {
+                _token: application.getCsrfToken(),
+                id: postId
+            };
+            $.post('/feed/mark_read', data, function (response) {
+            });
         }
     };
 });
