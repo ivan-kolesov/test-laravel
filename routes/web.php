@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/{feedId?}', 'FeedController@index')->name('home');
+
+Route::group(['prefix' => 'feed'], function () {
+    Route::post('add', 'FeedController@add');
+    Route::post('update', 'FeedController@update');
+    Route::post('remove', 'FeedController@remove');
+
+    Route::post('get_content', 'FeedContentController@getContent');
+    Route::post('mark_read', 'FeedContentController@markAsRead');
+    Route::post('mark_unread', 'FeedContentController@markAsUnRead');
 });
