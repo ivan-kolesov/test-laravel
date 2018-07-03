@@ -9,6 +9,8 @@ $(function() {
 
         $.post('/feed/add', data, function (response) {
             window.location.href = response.redirect;
+        }).fail(function () {
+            alert('Error creating feed');
         });
     });
 
@@ -44,12 +46,13 @@ $(function() {
     $('.js-update-feed').on('click', function (e) {
         e.preventDefault();
 
-        let form = $(this).closest('form');
-        let data = {
-            _token: application.getCsrfToken(),
-            id: form.find('input[name="feed_id"]').val(),
-            url: form.find('input[name="url"]').val()
-        };
+        let form = $(this).closest('form'),
+            url = form.find('input[name="feed_id"]').val(),
+            data = {
+                _token: application.getCsrfToken(),
+                id: url,
+                url: form.find('input[name="url"]').val()
+            };
 
         $.post('/feed/update', data, function (response) {
             alert('Feed has been updated');

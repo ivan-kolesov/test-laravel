@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Http\Requests\ContentRequest;
 use App\Models\Feed;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 
 class FeedRepository
@@ -26,6 +27,11 @@ class FeedRepository
             : collect();
     }
 
+    public function getById(int $id): ?Feed
+    {
+        return $this->feed->find($id);
+    }
+
     public function getAll(): Collection
     {
         return $this->feed->get();
@@ -33,23 +39,29 @@ class FeedRepository
 
     public function store(array $inputs): bool
     {
-        return $this->saveFeed(new Feed(), $inputs);
+        try {
+            return $this->saveFeed(new Feed(), $inputs);
+        } catch (QueryException $exception) {
+            return false;
+        }
     }
 
-    public function update(array $inputs): bool
+    public function update(Feed $feed, array $inputs): bool
     {
-        return $this->saveFeed($this->feed, $inputs);
+        return $this->saveFeed($feed, $inputs);
     }
 
     public function remove(int $id): bool
     {
-        return $this->feed->find($id)->delete();
+        return $this->getById($id)->delete();
     }
 
     protected function saveFeed(Feed $feed, array $inputs): bool
     {
         $feed->url = $inputs['url'];
-        $feed->name = $inputs['name'];
+        if (array_key_exists('name', $inputs)) {
+            $feed->name = $inputs['name'];
+        }
 
         return $feed->save();
     }

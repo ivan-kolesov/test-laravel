@@ -24,13 +24,13 @@ class FeedContentController extends Controller
     {
         $this->feedContentRepository->markRead((int)$id, true);
 
-        return new JsonResponse(200);
+        return new JsonResponse();
     }
 
     public function markAsUnread($id): JsonResponse
     {
         $this->feedContentRepository->markRead((int)$id, false);
 
-        return new JsonResponse(200);
+        return new JsonResponse();
     }
 }

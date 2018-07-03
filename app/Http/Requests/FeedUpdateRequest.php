@@ -4,8 +4,6 @@ namespace App\Http\Requests;
 
 class FeedUpdateRequest extends Request
 {
-    use FeedModifyTrait;
-
     public function rules(): array
     {
         return [

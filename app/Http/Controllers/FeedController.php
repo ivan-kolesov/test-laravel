@@ -34,16 +34,20 @@ class FeedController extends Controller
             return new JsonResponse(['redirect' => route('home')]);
         }
 
-        return new JsonResponse(500);
+        return new JsonResponse(null, 500);
     }
 
     public function update(FeedUpdateRequest $feedRequest): JsonResponse
     {
-        $feedRequest->populateNameByUrl();
+        $feed = $this->feedRepository->getById((int)$feedRequest->id);
 
-        $this->feedRepository->update($feedRequest->all());
+        if ($feed === null) {
+            return new JsonResponse(null, 404);
+        }
 
-        return new JsonResponse(200);
+        $this->feedRepository->update($feed, $feedRequest->all());
+
+        return new JsonResponse();
     }
 
     public function remove(FeedRemoveRequest $feedRequest): JsonResponse
@@ -52,6 +56,6 @@ class FeedController extends Controller
             return new JsonResponse(['redirect' => route('home')]);
         }
 
-        return new JsonResponse(500);
+        return new JsonResponse(null, 500);
     }
 }
