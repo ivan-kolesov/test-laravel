@@ -139,14 +139,17 @@ $(function() {
                     let postHtml = '<li data-id="' + post.id + '">';
                     postHtml += '<span class="date">' + post.created_at + '</span>';
                     postHtml += '<span class="title">' + post.title + '</span>';
+                    postHtml += '<div class="detailed hidden">';
                     postHtml += '<span class="description">' + post.description + '</span>';
                     postHtml += '<span class="link"><a href="' + post.permalink + '" target="_blank">Read more</a></link>';
+                    postHtml += '</div>';
                     postHtml += '</li>';
                     $('.feed-post-list').append(postHtml);
                 });
 
                 $('.feed-post-list li').not('.read').off('click').on('click', function () {
                     $(this).addClass('read').off('click');
+                    $(this).find('.detailed').removeClass('hidden');
                     let postId = $(this).data('id');
                     Feed.postMarkRead(postId);
                 });
