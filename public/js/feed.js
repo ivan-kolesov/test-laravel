@@ -89,10 +89,10 @@ $(function() {
 
                 $('#modal-confirm-remove-feed-url').text(feedUrl);
                 $('#modal-confirm-remove-feed').modal()
-                    .find('button.btn-primary').attr('data-feed-id', feedId);
+                    .find('button.btn-danger').attr('data-feed-id', feedId);
             });
 
-            $('#modal-confirm-remove-feed').find('button.btn-primary').on('click', function (e) {
+            $('#modal-confirm-remove-feed').find('button.btn-danger').on('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
 

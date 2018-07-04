@@ -44,13 +44,16 @@ class FeedContentRepository
         DB::table($tableName)->insert($feedContents);
     }
 
-    public function getByPermanentLinks(array $items): Collection
+    public function getByPermanentLinks(int $feedId, array $items): Collection
     {
         $permanentLinks = array_map(function (SimplePie_Item $item) {
             return $item->get_permalink();
         }, $items);
 
-        return $this->feedContent->whereIn('permalink', $permanentLinks)->get();
+        return $this->feedContent
+            ->where('feed_id', $feedId)
+            ->whereIn('permalink', $permanentLinks)
+            ->get();
     }
 
     public function markRead(int $id, bool $status): void

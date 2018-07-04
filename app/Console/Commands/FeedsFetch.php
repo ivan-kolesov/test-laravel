@@ -35,7 +35,7 @@ class FeedsFetch extends Command
 
                 $allItems = $feed->get_items();
                 foreach (array_chunk($allItems, self::FEED_BATCH_SIZE) as $items) {
-                    $items = $this->getNonExistFeedContentItems($feedContentRepository, $items);
+                    $items = $this->getNonExistFeedContentItems($feedContentRepository,$feedModel->id, $items);
 
                     $feedContentRepository->massStore($feedModel, $items);
                 }
@@ -44,9 +44,9 @@ class FeedsFetch extends Command
         return 0;
     }
 
-    private function getNonExistFeedContentItems(FeedContentRepository $feedContentRepository, array $items): array
+    private function getNonExistFeedContentItems(FeedContentRepository $feedContentRepository, int $feedId, array $items): array
     {
-        $existFeedContentLinks = $feedContentRepository->getByPermanentLinks($items)
+        $existFeedContentLinks = $feedContentRepository->getByPermanentLinks($feedId, $items)
             ->map(function (FeedContent $feedContent) {
                 return $feedContent->permalink;
             })

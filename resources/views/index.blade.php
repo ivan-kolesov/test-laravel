@@ -24,13 +24,13 @@
                 @if ($feeds->isEmpty())
                     Feeds are empty. <a href="#" class="js-open-add-feed-form">Add a feed</a>
                 @else
-                    <ul class="feed-list">
+                    <ul class="list-group list-group-flush feed-list">
                         @foreach($feeds as $feed)
-                            <li data-id="{{ $feed->id }}" data-url="{{ $feed->getUrl() }}">
-                                <a href="{{ route('home', ['feedId' => $feed->id]) }}" class="js-load-feed-content">{{ $feed->getUrl() }}</a>
+                            <li data-id="{{ $feed->id }}" data-url="{{ $feed->getUrl() }}" class="list-group-item">
+                                <a href="{{ route('home', ['feedId' => $feed->id]) }}" class="js-load-feed-content">{{ $feed->getName() }}</a>
 
-                                <a href="#" class="js-open-update-feed-form">Edit</a>
-                                <a href="#" class="js-remove-feed">Remove</a>
+                                <button type="button" class="btn btn-primary btn-sm js-open-update-feed-form">Edit</button>
+                                <button type="button" class="btn btn-danger btn-sm js-remove-feed">Remove</button>
                             </li>
                         @endforeach
                     </ul>
