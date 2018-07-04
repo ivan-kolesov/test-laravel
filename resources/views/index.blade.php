@@ -19,22 +19,25 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <a href="#" class="js-open-add-feed-form">Add a feed</a>
+                <div>
+                    <a href="#" class="js-open-add-feed-form btn btn-primary" role="button">Add a feed</a>
+                    <br/>
+                    <br/>
+                </div>
 
-                @if ($feeds->isEmpty())
-                    Feeds are empty. <a href="#" class="js-open-add-feed-form">Add a feed</a>
-                @else
-                    <ul class="list-group list-group-flush feed-list">
-                        @foreach($feeds as $feed)
-                            <li data-id="{{ $feed->id }}" data-url="{{ $feed->getUrl() }}" class="list-group-item">
-                                <a href="{{ route('home', ['feedId' => $feed->id]) }}" class="js-load-feed-content">{{ $feed->getName() }}</a>
+                <ul class="list-group feed-list">
+                    <li class="list-group-item list-group-item-primary">
+                        <a href="#" class="js-load-feed-content">All</a>
+                    </li>
+                    @foreach($feeds as $feed)
+                        <li data-id="{{ $feed->id }}" data-url="{{ $feed->getUrl() }}" class="list-group-item">
+                            <a href="{{ route('home', ['feedId' => $feed->id]) }}" class="js-load-feed-content">{{ $feed->getName() }}</a>
 
-                                <button type="button" class="btn btn-primary btn-sm js-open-update-feed-form">Edit</button>
-                                <button type="button" class="btn btn-danger btn-sm js-remove-feed">Remove</button>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
+                            <a href="#" class="js-open-update-feed-form badge badge-info">Edit</a>
+                            <a href="#" class="js-remove-feed badge badge-danger">Remove</a>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
             <div class="col-8">
                 <ul class="feed-post-list"></ul>

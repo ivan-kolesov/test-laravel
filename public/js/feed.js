@@ -75,7 +75,10 @@ $(function() {
                 e.preventDefault();
                 e.stopPropagation();
 
-                Feed.setSelectedFeed($(this).closest('li').data('id'))
+                $(this).closest('ul').find('li').removeClass('list-group-item-primary');
+                $(this).closest('li').addClass('list-group-item-primary');
+
+                Feed.setSelectedFeed($(this).closest('li').data('id'));
                 Feed.clearPosts();
                 Feed.loadPosts();
             });
@@ -136,7 +139,7 @@ $(function() {
                         Feed.fromDate = post.created_at;
                     }
 
-                    let postHtml = '<li data-id="' + post.id + '">';
+                    let postHtml = '<li class="border" data-id="' + post.id + '">';
                     postHtml += '<span class="date">' + post.created_at + '</span>';
                     postHtml += '<span class="title">' + post.title + '</span>';
                     postHtml += '<div class="detailed hidden">';
