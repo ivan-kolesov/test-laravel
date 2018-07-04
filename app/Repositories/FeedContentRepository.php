@@ -67,14 +67,17 @@ class FeedContentRepository
 
     public function getSimplePaginated(ContentRequest $contentRequest): Paginator
     {
-        if ($contentRequest->get('from_date') !== null) {
+        if ($contentRequest->from_date !== null) {
             $this->feedContent = $this->feedContent->where('created_at', '<', $contentRequest->get('from_date'));
+        }
+
+        if ($contentRequest->feed_id !== null) {
+            $this->feedContent = $this->feedContent->where('feed_id', $contentRequest->feed_id);
         }
 
         $page = $contentRequest->page ?? 1;
 
         return $this->feedContent
-            ->where('feed_id', $contentRequest->feed_id)
             ->where('read', $contentRequest->get('read') ?? false)
             ->latest()
             ->simplePaginate(ContentRequest::PER_PAGE, ['*'], 'page', $page);

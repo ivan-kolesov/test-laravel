@@ -2,7 +2,7 @@ $(function() {
     let Feed = {
         selectedFeed: null,
         fromDate: null,
-        page: null,
+        page: 1,
 
         bindEvents: function () {
             $('.js-add-feed').on('click', function (e) {
@@ -169,8 +169,13 @@ $(function() {
             };
             $.post('/feed/mark_read', data, function (response) {
             });
-        }
+        },
     };
 
     Feed.bindEvents();
+
+    if (selectedFeed !== undefined) {
+        Feed.setSelectedFeed(selectedFeed);
+    }
+    Feed.loadPosts();
 });

@@ -9,7 +9,7 @@ class ContentRequest extends Request
     public function rules(): array
     {
         return [
-            'feed_id' => 'bail|required|int',
+            'feed_id' => 'nullable|int',
             'from_date' => 'nullable|date',
             'page' => 'nullable|int',
             'read' => 'nullable|boolean',

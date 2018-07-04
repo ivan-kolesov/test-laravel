@@ -3,7 +3,7 @@
 @section('scripts')
     {!! HTML::script('js/feed.js') !!}
     <script type="text/javascript">
-        let selectedFeed = '{{ $selectedFeed }}';
+        let selectedFeed = {{ $selectedFeed ?? 'undefined' }};
     </script>
 @endsection
 
