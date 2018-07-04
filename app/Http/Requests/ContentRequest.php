@@ -11,6 +11,7 @@ class ContentRequest extends Request
         return [
             'feed_id' => 'bail|required|int',
             'from_date' => 'nullable|date',
+            'page' => 'nullable|int',
             'read' => 'nullable|boolean',
         ];
     }

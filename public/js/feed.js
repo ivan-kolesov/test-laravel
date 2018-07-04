@@ -2,6 +2,8 @@ $(function() {
     let Feed = {
         selectedFeed: null,
         fromDate: null,
+        page: null,
+
         bindEvents: function () {
             $('.js-add-feed').on('click', function (e) {
                 e.preventDefault();
@@ -68,8 +70,7 @@ $(function() {
             $('.js-load-feed-content').on('click', function (e) {
                 e.preventDefault();
 
-                Feed.selectedFeed = $(this).closest('li').data('id');
-                Feed.fromDate = null;
+                Feed.setSelectedFeed($(this).closest('li').data('id'))
                 Feed.clearPosts();
                 Feed.loadPosts();
             });
@@ -104,17 +105,29 @@ $(function() {
                 Feed.loadPosts();
             });
         },
+        setSelectedFeed: function (id) {
+            Feed.selectedFeed = id;
+            Feed.fromDate = null;
+            Feed.page = 1;
+        },
+        incrementPage: function () {
+            Feed.page++;
+        },
         loadPosts: function () {
             let data = {
                 _token: application.getCsrfToken(),
                 feed_id: Feed.selectedFeed,
-                from_date: Feed.fromDate || null,
+                from_date: Feed.fromDate,
+                page: Feed.page,
                 read: '0'
             };
 
             $.post('/feed/get_content', data, function (response) {
-                let fromDate;
-                response.forEach(function (post) {
+                response.posts.forEach(function (post) {
+                    if (Feed.fromDate === null) {
+                        Feed.fromDate = post.created_at;
+                    }
+
                     let postHtml = '<li data-id="' + post.id + '">';
                     postHtml += '<span class="date">' + post.created_at + '</span>';
                     postHtml += '<span class="title">' + post.title + '</span>';
@@ -122,8 +135,6 @@ $(function() {
                     postHtml += '<span class="link"><a href="' + post.permalink + '" target="_blank">Read more</a></link>';
                     postHtml += '</li>';
                     $('.feed-post-list').append(postHtml);
-
-                    fromDate = post.created_at;
                 });
 
                 $('.feed-post-list li').not('.read').off('click').on('click', function () {
@@ -132,9 +143,9 @@ $(function() {
                     Feed.postMarkRead(postId);
                 });
 
-                if (fromDate !== undefined) {
+                if (response.hasMore) {
+                    Feed.incrementPage();
                     $('.js-load-more-content').show();
-                    Feed.fromDate = fromDate;
                 } else {
                     $('.js-load-more-content').hide();
                 }

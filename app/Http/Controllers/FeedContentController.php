@@ -17,7 +17,8 @@ class FeedContentController extends Controller
 
     public function getContent(ContentRequest $contentRequest): JsonResponse
     {
-        return new JsonResponse($this->feedContentRepository->find($contentRequest));
+        $posts = $this->feedContentRepository->getSimplePaginated($contentRequest);
+        return new JsonResponse(['posts' => $posts->items(), 'hasMore' => $posts->hasMorePages()]);
     }
 
     public function markAsRead(): JsonResponse
