@@ -2,12 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Adapters\SimplePieAdapter;
 use App\Models\Feed;
 use App\Models\FeedContent;
+use App\Models\Rss\Item;
 use App\Repositories\FeedContentRepository;
-use Feeds;
 use Illuminate\Console\Command;
-use SimplePie_Item;
+use Illuminate\Support\Collection;
 
 class FeedsFetch extends Command
 {
@@ -30,14 +31,13 @@ class FeedsFetch extends Command
     public function handle(FeedContentRepository $feedContentRepository)
     {
         Feed::all()
-            ->each(function (Feed $feedModel) use ($feedContentRepository) {
-                $feed = Feeds::make([$feedModel->getUrl()]);
+            ->each(function (Feed $feed) use ($feedContentRepository) {
+                $rssFeed = (new SimplePieAdapter($feed))->getFeed();
 
-                $allItems = $feed->get_items();
-                foreach (array_chunk($allItems, self::FEED_BATCH_SIZE) as $items) {
-                    $items = $this->getNonExistFeedContentItems($feedContentRepository, $feedModel->id, $items);
+                foreach ($rssFeed->getItems()->chunk(self::FEED_BATCH_SIZE) as $items) {
+                    $items = $this->getNonExistFeedContentItems($feedContentRepository, $feed->id, $items);
 
-                    $feedContentRepository->massStore($feedModel, $items);
+                    $feedContentRepository->massStore($feed, $items);
                 }
             });
 
@@ -47,16 +47,16 @@ class FeedsFetch extends Command
     private function getNonExistFeedContentItems(
         FeedContentRepository $feedContentRepository,
         int $feedId,
-        array $items
-    ): array {
+        Collection $items
+    ): Collection {
         $existFeedContentLinks = $feedContentRepository->getByPermanentLinks($feedId, $items)
             ->map(function (FeedContent $feedContent) {
                 return $feedContent->permalink;
             })
             ->flip();
 
-        return array_filter($items, function (SimplePie_Item $item) use ($existFeedContentLinks) {
-            return !$existFeedContentLinks->has($item->get_permalink());
+        return $items->filter(function (Item $post) use ($existFeedContentLinks) {
+            return !$existFeedContentLinks->has($post->getPermalink());
         });
     }
 }

@@ -5,11 +5,11 @@ namespace App\Repositories;
 use App\Http\Requests\ContentRequest;
 use App\Models\Feed;
 use App\Models\FeedContent;
+use App\Models\Rss\Item;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
-use SimplePie_Item;
 
 class FeedContentRepository
 {
@@ -20,7 +20,7 @@ class FeedContentRepository
         $this->feedContent = $feedContent;
     }
 
-    public function store(Feed $feed, SimplePie_Item $item): void
+    public function store(Feed $feed, Item $item): void
     {
         $this->feedContent = $this->createFromItem($item);
         $this->feedContent->feed_id = $feed->id;
@@ -28,14 +28,14 @@ class FeedContentRepository
         $this->feedContent->save();
     }
 
-    public function massStore(Feed $feed, array $items): void
+    public function massStore(Feed $feed, Collection $items): void
     {
         $feedContents = [];
         foreach ($items as $item) {
-            /** @var SimplePie_Item $item */
+            /** @var Item $item */
             $feedContent = $this->createFromItem($item);
             $feedContent->feed_id = $feed->id;
-            $feedContent->setCreatedAt(Carbon::parse($item->get_date()));
+            $feedContent->setCreatedAt(Carbon::parse($item->getDate()));
 
             $feedContents[] = $feedContent->toArray();
         }
@@ -44,11 +44,13 @@ class FeedContentRepository
         DB::table($tableName)->insert($feedContents);
     }
 
-    public function getByPermanentLinks(int $feedId, array $items): Collection
+    public function getByPermanentLinks(int $feedId, Collection $items): Collection
     {
-        $permanentLinks = array_map(function (SimplePie_Item $item) {
-            return $item->get_permalink();
-        }, $items);
+        $permanentLinks = $items
+            ->map(function (Item $item) {
+                return $item->getPermalink();
+            })
+            ->toArray();
 
         return $this->feedContent
             ->where('feed_id', $feedId)
@@ -83,13 +85,13 @@ class FeedContentRepository
             ->simplePaginate(ContentRequest::PER_PAGE, ['*'], 'page', $page);
     }
 
-    protected function createFromItem(SimplePie_Item $item): FeedContent
+    protected function createFromItem(Item $item): FeedContent
     {
         $feedContent = new FeedContent();
-        $feedContent->title = $item->get_title();
-        $feedContent->description = $item->get_description();
-        $feedContent->content = $item->get_content();
-        $feedContent->permalink = $item->get_permalink();
+        $feedContent->title = $item->getTitle();
+        $feedContent->description = $item->getDescription();
+        $feedContent->content = $item->getContent();
+        $feedContent->permalink = $item->getPermalink();
 
         return $feedContent;
     }

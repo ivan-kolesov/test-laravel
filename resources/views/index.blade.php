@@ -38,7 +38,7 @@
             </div>
             <div class="col-8">
                 <ul class="feed-post-list"></ul>
-                <a href="#" class="js-load-more-content hidden" data-from-date="" data-feed-id="">Get more</a>
+                <button type="button" class="btn btn-primary btn-lg btn-block js-load-more-content hidden">Get more</button>
             </div>
         </div>
     </div>
