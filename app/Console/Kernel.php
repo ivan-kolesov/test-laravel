@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(FeedsFetch::class)
             ->withoutOverlapping()
-            ->everyFiveMinutes();
+            ->everyMinute();
     }
 
     protected function commands(): void

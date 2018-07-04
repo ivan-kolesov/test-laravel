@@ -22,7 +22,7 @@ You can seed feed list with test data, run into console `php artisan db:seed`
 
 ## Run schedule
 
-Schedule needs to fetch posts at background, every five minutes.
+Schedule needs to fetch posts at background, every minute.
 Set job to cron:
 
 `* * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1`
@@ -31,3 +31,9 @@ Set job to cron:
 
 It's not necessary to run the project from any web server, so just run into console `php artisan serve`
 and go to given url into your web browser.
+
+## Run unit tests
+
+Unit tests flush the database during it running, so make backup before run unit test.
+
+Run `phpunit` into the projects's root category. PhpUnit has to be installed, see more on https://phpunit.de/

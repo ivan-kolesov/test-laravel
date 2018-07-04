@@ -6,15 +6,20 @@ $(function() {
             $('.js-add-feed').on('click', function (e) {
                 e.preventDefault();
 
-                let data = {
-                    _token: application.getCsrfToken(),
-                    url: $(this).closest('form').find('input[name="url"]').val()
-                };
+                let urlField = $(this).closest('form').find('input[name="url"]'),
+                    data = {
+                        _token: application.getCsrfToken(),
+                        url: urlField.val()
+                    };
 
                 $.post('/feed/add', data, function (response) {
                     window.location.href = response.redirect;
-                }).fail(function () {
-                    alert('Error creating feed');
+                }).fail(function (xhr) {
+                    let responseText = JSON.parse(xhr.responseText);
+                    if (responseText.errors.url !== undefined) {
+                        urlField.addClass('is-invalid');
+                        urlField.next('.invalid-feedback').html(responseText.errors.url);
+                    }
                 });
             });
 
@@ -41,15 +46,23 @@ $(function() {
                 e.preventDefault();
 
                 let form = $(this).closest('form'),
+                    urlField = form.find('input[name="url"]'),
                     data = {
                         _token: application.getCsrfToken(),
                         id: form.find('input[name="feed_id"]').val(),
-                        url: form.find('input[name="url"]').val()
+                        url: urlField.val()
                     };
 
                 $.post('/feed/update', data, function (response) {
-                    alert('Feed has been updated');
-                });
+                    $('#modal-edit-feed').modal('hide');
+                    $('#modal-updated-feed').modal();
+                }).fail(function (xhr) {
+                    let responseText = JSON.parse(xhr.responseText);
+                    if (responseText.errors.url !== undefined) {
+                        urlField.addClass('is-invalid');
+                        urlField.next('.invalid-feedback').html(responseText.errors.url);
+                    }
+                })
             });
 
             $('.js-load-feed-content').on('click', function (e) {
@@ -67,16 +80,22 @@ $(function() {
                 let feedId = $(this).closest('li').data('id'),
                     feedUrl = $(this).closest('li').data('url');
 
-                if (window.confirm('Are you sure remove ' + feedUrl)) {
-                    let data = {
-                        _token: application.getCsrfToken(),
-                        id: feedId
-                    };
+                $('#modal-confirm-remove-feed-url').text(feedUrl);
+                $('#modal-confirm-remove-feed').modal()
+                    .find('button.btn-primary').attr('data-feed-id', feedId);
+            });
 
-                    $.post('/feed/remove', data, function (response) {
-                        window.location.href = response.redirect;
-                    });
-                }
+            $('#modal-confirm-remove-feed').find('button.btn-primary').on('click', function (e) {
+                e.preventDefault();
+
+                let data = {
+                    _token: application.getCsrfToken(),
+                    id: $(this).data('feed-id')
+                };
+
+                $.post('/feed/remove', data, function (response) {
+                    window.location.href = response.redirect;
+                });
             });
 
             $('.js-load-more-content').on('click', function (e) {

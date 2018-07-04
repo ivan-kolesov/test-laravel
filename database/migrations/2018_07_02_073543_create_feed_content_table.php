@@ -17,6 +17,7 @@ class CreateFeedContentTable extends Migration
             $table->string('permalink', 255)->unique();
             $table->boolean('read')->default(false);
             $table->timestamps();
+            $table->index(['created_at', 'feed_id', 'read'], 'feed_content_post_idx');
         });
 
         Schema::table('feed_content', function (Blueprint $table) {

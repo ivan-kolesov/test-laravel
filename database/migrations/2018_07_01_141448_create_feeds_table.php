@@ -12,7 +12,7 @@ class CreateFeedsTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->string('url')->unique();
-            $table->text('options')->nullable();
+            $table->text('filters')->nullable();
         });
     }
 

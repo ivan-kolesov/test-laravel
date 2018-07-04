@@ -53,7 +53,13 @@ class FeedRepository
 
     public function remove(int $id): bool
     {
-        return $this->getById($id)->delete();
+        $feed = $this->getById($id);
+
+        if ($feed !== null) {
+            return $feed->delete();
+        }
+
+        return false;
     }
 
     protected function saveFeed(Feed $feed, array $inputs): bool

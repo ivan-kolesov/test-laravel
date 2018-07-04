@@ -12,6 +12,7 @@
                     <div class="form-group">
                         <label for="addFeedUrl">Url</label>
                         <input type="text" class="form-control" id="addFeedUrl" name="url"/>
+                        <div class="invalid-feedback"></div>
                     </div>
                     <button type="button" class="btn btn-primary js-add-feed">Add</button>
                 </form>

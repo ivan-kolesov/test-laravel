@@ -10,6 +10,8 @@ use Illuminate\Http\JsonResponse;
 
 class FeedController extends Controller
 {
+    use JsonResponseErrorsGeneratorTrait;
+
     private $feedRepository;
 
     public function __construct(FeedRepository $feedRepository)
@@ -34,7 +36,8 @@ class FeedController extends Controller
             return new JsonResponse(['redirect' => route('home')]);
         }
 
-        return new JsonResponse(null, 500);
+        $errors = ['url' => trans('app.urlDuplicate')];
+        return $this->generateJsonResponseErrors($errors, 500);
     }
 
     public function update(FeedUpdateRequest $feedRequest): JsonResponse
@@ -42,7 +45,8 @@ class FeedController extends Controller
         $feed = $this->feedRepository->getById((int)$feedRequest->id);
 
         if ($feed === null) {
-            return new JsonResponse(null, 404);
+            $errors = ['url' => trans('app.feedNotFound')];
+            return $this->generateJsonResponseErrors($errors, 404);
         }
 
         $this->feedRepository->update($feed, $feedRequest->all());
@@ -56,6 +60,7 @@ class FeedController extends Controller
             return new JsonResponse(['redirect' => route('home')]);
         }
 
-        return new JsonResponse(null, 500);
+        $errors = ['url' => trans('app.feedNotFound')];
+        return $this->generateJsonResponseErrors($errors, 404);
     }
 }

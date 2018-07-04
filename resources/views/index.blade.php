@@ -45,5 +45,7 @@
 
     @include('modals.addFeed')
     @include('modals.editFeed')
+    @include('modals.updatedFeed')
+    @include('modals.confirmRemoveFeed')
 
 @endsection

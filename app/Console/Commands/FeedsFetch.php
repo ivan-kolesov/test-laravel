@@ -11,6 +11,8 @@ use SimplePie_Item;
 
 class FeedsFetch extends Command
 {
+    private const FEED_BATCH_SIZE = 10;
+
     /**
      * The name and signature of the console command.
      *
@@ -31,10 +33,12 @@ class FeedsFetch extends Command
             ->each(function (Feed $feedModel) use ($feedContentRepository) {
                 $feed = Feeds::make([$feedModel->getUrl()]);
 
-                $items = $feed->get_items();
-                $items = $this->getNonExistFeedContentItems($feedContentRepository, $items);
+                $allItems = $feed->get_items();
+                foreach (array_chunk($allItems, self::FEED_BATCH_SIZE) as $items) {
+                    $items = $this->getNonExistFeedContentItems($feedContentRepository, $items);
 
-                $feedContentRepository->massStore($feedModel, $items);
+                    $feedContentRepository->massStore($feedModel, $items);
+                }
         });
 
         return 0;
