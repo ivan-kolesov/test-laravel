@@ -27,6 +27,8 @@ Set job to cron:
 
 `* * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1`
 
+You can skip this step and run schedule manually, just run into console `php artisan feeds:fetch` every time when you want to fetch new remote data.
+
 ## Run project
 
 It's not necessary to run the project from any web server, so just run into console `php artisan serve`

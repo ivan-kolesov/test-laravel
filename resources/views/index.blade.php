@@ -19,10 +19,10 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <a href="#" class="js-open-add-feed-form">Create a feed</a>
+                <a href="#" class="js-open-add-feed-form">Add a feed</a>
 
                 @if ($feeds->isEmpty())
-                    Feeds are empty. <a href="#" class="js-open-add-feed-form">Create a feed</a>
+                    Feeds are empty. <a href="#" class="js-open-add-feed-form">Add a feed</a>
                 @else
                     <ul class="feed-list">
                         @foreach($feeds as $feed)

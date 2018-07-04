@@ -7,6 +7,7 @@ $(function() {
         bindEvents: function () {
             $('.js-add-feed').on('click', function (e) {
                 e.preventDefault();
+                e.stopPropagation();
 
                 let urlField = $(this).closest('form').find('input[name="url"]'),
                     data = {
@@ -27,12 +28,14 @@ $(function() {
 
             $('.js-open-add-feed-form').on('click', function (e) {
                 e.preventDefault();
+                e.stopPropagation();
 
                 $('#modal-add-feed').modal();
             });
 
             $('.js-open-update-feed-form').on('click', function (e) {
                 e.preventDefault();
+                e.stopPropagation();
 
                 let feedId = $(this).closest('li').data('id'),
                     feedUrl = $(this).closest('li').data('url'),
@@ -46,6 +49,7 @@ $(function() {
 
             $('.js-update-feed').on('click', function (e) {
                 e.preventDefault();
+                e.stopPropagation();
 
                 let form = $(this).closest('form'),
                     urlField = form.find('input[name="url"]'),
@@ -69,6 +73,7 @@ $(function() {
 
             $('.js-load-feed-content').on('click', function (e) {
                 e.preventDefault();
+                e.stopPropagation();
 
                 Feed.setSelectedFeed($(this).closest('li').data('id'))
                 Feed.clearPosts();
@@ -77,6 +82,7 @@ $(function() {
 
             $('.js-remove-feed').on('click', function (e) {
                 e.preventDefault();
+                e.stopPropagation();
 
                 let feedId = $(this).closest('li').data('id'),
                     feedUrl = $(this).closest('li').data('url');
@@ -88,6 +94,7 @@ $(function() {
 
             $('#modal-confirm-remove-feed').find('button.btn-primary').on('click', function (e) {
                 e.preventDefault();
+                e.stopPropagation();
 
                 let data = {
                     _token: application.getCsrfToken(),
@@ -101,6 +108,7 @@ $(function() {
 
             $('.js-load-more-content').on('click', function (e) {
                 e.preventDefault();
+                e.stopPropagation();
 
                 Feed.loadPosts();
             });
