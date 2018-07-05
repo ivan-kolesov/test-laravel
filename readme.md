@@ -1,3 +1,11 @@
+## About
+
+RSS reader allows read your favourites RSS feeds in web browser.
+
+You can add feeds, edit and remove them.
+
+Post that had been read mark as read, so you don't need to read it twice. 
+
 ## Get project
 Clone project from git repository to your local disk
 
