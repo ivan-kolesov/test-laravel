@@ -47,3 +47,8 @@ and go to given url in your web browser.
 Unit tests flush the database during it running, so make backup before run unit test.
 
 Run `phpunit` in the projects's root category. PhpUnit has to be installed, see more on https://phpunit.de
+
+## Customization
+
+You can change RSS parser to your own realization. Implement `App\Adapters\AdapterInterface` at new adapter class and
+point the classes name at config `app.php`, like `'feedAdapter' => App\Adapters\YourAdapter::class`.

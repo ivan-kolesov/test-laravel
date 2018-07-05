@@ -11,9 +11,9 @@ class SimplePieAdapter implements AdapterInterface
     /** @var \SimplePie */
     private $simplePie;
 
-    public function __construct(\App\Models\Feed $feed)
+    public function __construct(string $url)
     {
-        $this->simplePie = Feeds::make($feed->getUrl());
+        $this->simplePie = Feeds::make($url);
     }
 
     public function getFeed(): Feed

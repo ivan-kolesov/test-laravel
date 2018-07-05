@@ -6,7 +6,7 @@ use App\Models\Rss\Feed;
 
 interface AdapterInterface
 {
-    public function __construct(\App\Models\Feed $feed);
+    public function __construct(string $url);
 
     public function getFeed(): Feed;
 }

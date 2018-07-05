@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Adapters\SimplePieAdapter;
+use App\Adapters\AdapterInterface;
 use App\Models\Feed;
 use App\Models\FeedContent;
 use App\Models\Rss\Item;
 use App\Repositories\FeedContentRepository;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use ReflectionClass;
 
 class FeedsFetch extends Command
 {
@@ -32,7 +33,11 @@ class FeedsFetch extends Command
     {
         Feed::all()
             ->each(function (Feed $feed) use ($feedContentRepository) {
-                $rssFeed = (new SimplePieAdapter($feed))->getFeed();
+                $class = new ReflectionClass(config('app.feedAdapter'));
+                /** @var AdapterInterface $adapter */
+                $adapter = $class->newInstanceArgs([$feed->getUrl()]);
+
+                $rssFeed = $adapter->getFeed();
 
                 foreach ($rssFeed->getItems()->chunk(self::FEED_BATCH_SIZE) as $items) {
                     $items = $this->getNonExistFeedContentItems($feedContentRepository, $feed->id, $items);

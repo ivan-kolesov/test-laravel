@@ -235,4 +235,6 @@ return [
 
     ],
 
+    'feedAdapter' => App\Adapters\SimplePieAdapter::class,
+
 ];

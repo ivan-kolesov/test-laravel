@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Feed extends Model
 {
-    protected $fillable = ['options'];
+    protected $fillable = ['filters'];
 
     public $timestamps = false;
 
