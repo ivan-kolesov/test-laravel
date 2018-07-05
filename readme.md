@@ -26,6 +26,14 @@ Just run in your console bash script `init.sh` which creates local sqlite databa
 
 Copy file `.env-example` to `.env`
 
+* if you use MySQL in *.env* file:
+   * set DB_CONNECTION
+   * set DB_DATABASE
+   * set DB_USERNAME
+   * set DB_PASSWORD
+* if you use sqlite:
+   * type `touch database/database.sqlite` to create the file
+
 Run in console `composer install`
 
 ### 3. Run migration

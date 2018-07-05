@@ -21,8 +21,8 @@ class Feed extends Model
         return $this->getAttribute('name');
     }
 
-    public function content(): HasMany
+    public function posts(): HasMany
     {
-        return $this->hasMany(FeedContent::class);
+        return $this->hasMany(FeedPost::class);
     }
 }

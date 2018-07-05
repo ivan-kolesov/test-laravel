@@ -18,7 +18,7 @@ Route::group(['prefix' => 'feed'], function () {
     Route::post('update', 'FeedController@update');
     Route::post('remove', 'FeedController@remove');
 
-    Route::post('get_content', 'FeedContentController@getContent');
-    Route::post('mark_read', 'FeedContentController@markAsRead');
-    Route::post('mark_unread', 'FeedContentController@markAsUnRead');
+    Route::post('get_posts', 'FeedPostController@getPosts');
+    Route::post('mark_read', 'FeedPostController@markAsRead');
+    Route::post('mark_unread', 'FeedPostController@markAsUnRead');
 });

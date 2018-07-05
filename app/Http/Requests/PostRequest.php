@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class ContentRequest extends Request
+class PostRequest extends Request
 {
     public const PER_PAGE = 10;
 

@@ -133,7 +133,7 @@ $(function() {
                 read: '0'
             };
 
-            $.post('/feed/get_content', data, function (response) {
+            $.post('/feed/get_posts', data, function (response) {
                 if (response.posts.length > 0) {
                     if (Feed.fromDate === null) {
                         Feed.fromDate = response.posts[0].created_at;

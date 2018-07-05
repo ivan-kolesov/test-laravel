@@ -4,9 +4,9 @@ namespace App\Console\Commands;
 
 use App\Adapters\AdapterInterface;
 use App\Models\Feed;
-use App\Models\FeedContent;
+use App\Models\FeedPost;
 use App\Models\Rss\Item;
-use App\Repositories\FeedContentRepository;
+use App\Repositories\FeedPostRepository;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use ReflectionClass;
@@ -29,10 +29,10 @@ class FeedsFetch extends Command
      */
     protected $description = 'Fetch and store feeds';
 
-    public function handle(FeedContentRepository $feedContentRepository)
+    public function handle(FeedPostRepository $feedPostRepository)
     {
         Feed::all()
-            ->each(function (Feed $feed) use ($feedContentRepository) {
+            ->each(function (Feed $feed) use ($feedPostRepository) {
                 $class = new ReflectionClass(config('app.feedAdapter'));
                 /** @var AdapterInterface $adapter */
                 $adapter = $class->newInstanceArgs([$feed->getUrl()]);
@@ -40,28 +40,28 @@ class FeedsFetch extends Command
                 $rssFeed = $adapter->getFeed();
 
                 foreach ($rssFeed->getItems()->chunk(self::FEED_BATCH_SIZE) as $items) {
-                    $items = $this->getNonExistFeedContentItems($feedContentRepository, $feed->id, $items);
+                    $items = $this->getNonExistFeedPostItems($feedPostRepository, $feed->id, $items);
 
-                    $feedContentRepository->massStore($feed, $items);
+                    $feedPostRepository->massStore($feed, $items);
                 }
             });
 
         return 0;
     }
 
-    private function getNonExistFeedContentItems(
-        FeedContentRepository $feedContentRepository,
+    private function getNonExistFeedPostItems(
+        FeedPostRepository $feedPostRepository,
         int $feedId,
         Collection $items
     ): Collection {
-        $existFeedContentLinks = $feedContentRepository->getByPermanentLinks($feedId, $items)
-            ->map(function (FeedContent $feedContent) {
-                return $feedContent->permalink;
+        $existFeedPostLinks = $feedPostRepository->getByPermanentLinks($feedId, $items)
+            ->map(function (FeedPost $post) {
+                return $post->permalink;
             })
             ->flip();
 
-        return $items->filter(function (Item $post) use ($existFeedContentLinks) {
-            return !$existFeedContentLinks->has($post->getPermalink());
+        return $items->filter(function (Item $post) use ($existFeedPostLinks) {
+            return !$existFeedPostLinks->has($post->getPermalink());
         });
     }
 }

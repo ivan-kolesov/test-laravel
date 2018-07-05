@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class FeedContent extends Model
+class FeedPost extends Model
 {
-    protected $table = 'feed_content';
+    protected $table = 'feed_post';
 
     protected $casts = [
         'read' => 'boolean',

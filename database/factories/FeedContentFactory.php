@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Models\FeedContent::class, function (Faker $faker) {
+$factory->define(App\Models\FeedPost::class, function (Faker $faker) {
     return [
         'feed_id' => 1,
         'title' => $faker->text(100),

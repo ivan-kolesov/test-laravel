@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Http\Requests\ContentRequest;
 use App\Models\Feed;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
@@ -11,20 +10,9 @@ class FeedRepository
 {
     protected $feed;
 
-    public function __construct(Feed $feedContent)
+    public function __construct(Feed $feed)
     {
-        $this->feed = $feedContent;
-    }
-
-    public function getContentByFeedId(Collection $feeds, int $id): Collection
-    {
-        $feed = $feeds->first(function (Feed $feed) use ($id) {
-            return (int)$feed->id === $id;
-        });
-
-        return $feed instanceof Feed
-            ? $feed->content()->latest()->take(ContentRequest::PER_PAGE)->get()
-            : collect();
+        $this->feed = $feed;
     }
 
     public function getById(int $id): ?Feed

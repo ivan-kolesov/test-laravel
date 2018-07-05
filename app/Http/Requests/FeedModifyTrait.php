@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 trait FeedModifyTrait
 {
-    public function populateNameByUrl(): void
+    protected function populateNameByUrl(): void
     {
         $input = [
             'name' => app('FeedService')->getFeedTitle($this->url) ?? $this->url

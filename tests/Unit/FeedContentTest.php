@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Models\FeedContent;
+use App\Models\FeedPost;
 use App\Models\Rss\Item;
-use App\Repositories\FeedContentRepository;
+use App\Repositories\FeedPostRepository;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,10 +17,10 @@ class FeedContentTest extends TestCase
     {
         $feed = $this->createTestFeed();
 
-        $post = factory(FeedContent::class)->make([
+        $post = factory(FeedPost::class)->make([
             'feed_id' => $feed->id,
         ]);
-        $feedContentRepository = new FeedContentRepository($post);
+        $feedContentRepository = new FeedPostRepository($post);
         $item = (new Item())
             ->setTitle($post->title)
             ->setDescription($post->description)
@@ -30,6 +30,6 @@ class FeedContentTest extends TestCase
 
         $feedContentRepository->store($feed, $item);
 
-        $this->assertEquals($feed->content()->count(), 1);
+        $this->assertEquals($feed->posts()->count(), 1);
     }
 }
