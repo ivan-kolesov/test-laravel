@@ -12,7 +12,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-    {!! HTML::style('css/application.css') !!}
+    {!! HTML::style('css/app.css') !!}
     {!! HTML::style('css/bootstrap.min.css') !!}
 
 </head>
@@ -23,6 +23,7 @@
 
 {{ HTML::script('js/jquery-3.3.1.min.js') }}
 {{ HTML::script('js/bootstrap.min.js') }}
+{{ HTML::script('js/jquery.loadTemplate.min.js') }}
 {{ HTML::script('js/application.js') }}
 
 @yield('scripts')

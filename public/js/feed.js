@@ -134,28 +134,20 @@ $(function() {
             };
 
             $.post('/feed/get_content', data, function (response) {
-                response.posts.forEach(function (post) {
+                if (response.posts.length > 0) {
                     if (Feed.fromDate === null) {
-                        Feed.fromDate = post.created_at;
+                        Feed.fromDate = response.posts[0].created_at;
                     }
 
-                    let postHtml = '<li class="border" data-id="' + post.id + '">';
-                    postHtml += '<span class="date">' + post.created_at + '</span>';
-                    postHtml += '<span class="title">' + post.title + '</span>';
-                    postHtml += '<div class="detailed hidden">';
-                    postHtml += '<span class="description">' + post.description + '</span>';
-                    postHtml += '<span class="link"><a href="' + post.permalink + '" target="_blank">Read more</a></link>';
-                    postHtml += '</div>';
-                    postHtml += '</li>';
-                    $('.feed-post-list').append(postHtml);
-                });
+                    $(".feed-post-list").loadTemplate("templates/post.html", response.posts, {append: true});
 
-                $('.feed-post-list li').not('.read').off('click').on('click', function () {
-                    $(this).addClass('read').off('click');
-                    $(this).find('.detailed').removeClass('hidden');
-                    let postId = $(this).data('id');
-                    Feed.postMarkRead(postId);
-                });
+                    $('.feed-post-list li').not('.read').off('click').on('click', function () {
+                        $(this).addClass('read').off('click');
+                        $(this).find('.detailed').removeClass('hidden');
+                        let postId = $(this).data('id');
+                        Feed.postMarkRead(postId);
+                    });
+                }
 
                 if (response.hasMore) {
                     Feed.incrementPage();
