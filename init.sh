@@ -1,4 +1,7 @@
 #!/bin/bash
 
-php artisan migrate
-php artisan db:seed
+cp .env-example .env
+touch database/database.sqlite
+composer install
+php artisan migrate:fresh --seed
+php artisan feeds:fetch

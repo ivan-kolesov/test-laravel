@@ -139,7 +139,7 @@ $(function() {
                         Feed.fromDate = response.posts[0].created_at;
                     }
 
-                    $(".feed-post-list").loadTemplate("templates/post.html", response.posts, {append: true});
+                    $(".feed-post-list").loadTemplate("templates/post.html", response.posts, {append: true, async: false});
 
                     $('.feed-post-list li').not('.read').off('click').on('click', function () {
                         $(this).addClass('read').off('click');

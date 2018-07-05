@@ -17,6 +17,11 @@ class Feed
         $this->items = $items ?? collect();
     }
 
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
     public function setTitle(string $title): self
     {
         $this->title = $title;
