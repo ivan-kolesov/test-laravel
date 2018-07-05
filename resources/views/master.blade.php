@@ -24,7 +24,7 @@
 {{ HTML::script('js/jquery-3.3.1.min.js') }}
 {{ HTML::script('js/bootstrap.min.js') }}
 {{ HTML::script('js/jquery.loadTemplate.min.js') }}
-{{ HTML::script('js/application.js') }}
+{{ HTML::script('js/app.js') }}
 
 @yield('scripts')
 

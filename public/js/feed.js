@@ -11,7 +11,7 @@ $(function() {
 
                 let urlField = $(this).closest('form').find('input[name="url"]'),
                     data = {
-                        _token: application.getCsrfToken(),
+                        _token: app.getCsrfToken(),
                         url: urlField.val()
                     };
 
@@ -54,7 +54,7 @@ $(function() {
                 let form = $(this).closest('form'),
                     urlField = form.find('input[name="url"]'),
                     data = {
-                        _token: application.getCsrfToken(),
+                        _token: app.getCsrfToken(),
                         id: form.find('input[name="feed_id"]').val(),
                         url: urlField.val()
                     };
@@ -100,7 +100,7 @@ $(function() {
                 e.stopPropagation();
 
                 let data = {
-                    _token: application.getCsrfToken(),
+                    _token: app.getCsrfToken(),
                     id: $(this).data('feed-id')
                 };
 
@@ -126,7 +126,7 @@ $(function() {
         },
         loadPosts: function () {
             let data = {
-                _token: application.getCsrfToken(),
+                _token: app.getCsrfToken(),
                 feed_id: Feed.selectedFeed,
                 from_date: Feed.fromDate,
                 page: Feed.page,
@@ -162,7 +162,7 @@ $(function() {
         },
         postMarkRead: function (postId) {
             let data = {
-                _token: application.getCsrfToken(),
+                _token: app.getCsrfToken(),
                 id: postId
             };
             $.post('/feed/mark_read', data, function (response) {
