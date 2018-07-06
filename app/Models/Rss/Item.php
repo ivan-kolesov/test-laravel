@@ -2,6 +2,8 @@
 
 namespace App\Models\Rss;
 
+use Illuminate\Support\Str;
+
 class Item
 {
     private $title;
@@ -10,15 +12,9 @@ class Item
     private $permalink;
     private $date;
 
-    public function __construct()
+    public function __construct(string $title)
     {
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
+        $this->title = Str::substr($title, 0, 255);
     }
 
     public function getTitle(): ?string
@@ -26,9 +22,9 @@ class Item
         return $this->title;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(string $description = null): self
     {
-        $this->description = $description;
+        $this->description = Str::substr($description, 0, 1024);
 
         return $this;
     }
@@ -38,7 +34,7 @@ class Item
         return $this->description;
     }
 
-    public function setContent(string $content): self
+    public function setContent(string $content = null): self
     {
         $this->content = $content;
 
@@ -50,9 +46,9 @@ class Item
         return $this->content;
     }
 
-    public function setPermalink(string $link): self
+    public function setPermalink(string $link = null): self
     {
-        $this->permalink = $link;
+        $this->permalink = Str::substr($link, 0, 255);
 
         return $this;
     }

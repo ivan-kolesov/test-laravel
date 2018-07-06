@@ -13,6 +13,12 @@ abstract class TestCase extends BaseTestCase
 
     protected const FEED_URL = 'https://www.engadget.com/rss.xml';
 
+    public function setUp()
+    {
+        parent::setUp();
+        \Artisan::call('migrate:fresh');
+    }
+
     protected function createTestFeed(): Feed
     {
         $feedRepository = new FeedRepository(new Feed());

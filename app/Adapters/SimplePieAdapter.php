@@ -30,8 +30,7 @@ class SimplePieAdapter implements AdapterInterface
 
     private function createPostFromItem(\SimplePie_Item $item): Item
     {
-        return (new Item())
-            ->setTitle($item->get_title())
+        return (new Item($item->get_title()))
             ->setContent($item->get_content())
             ->setDescription($item->get_description())
             ->setDate($item->get_date())

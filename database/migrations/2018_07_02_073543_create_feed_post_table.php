@@ -12,9 +12,9 @@ class CreateFeedPostTable extends Migration
             $table->increments('id');
             $table->integer('feed_id')->unsigned();
             $table->string('title', 255);
-            $table->string('description', 255);
-            $table->text('content');
-            $table->string('permalink', 255);
+            $table->string('description', 1024)->nullable();
+            $table->text('content')->nullable();
+            $table->string('permalink', 255)->nullable();
             $table->boolean('read')->default(false);
             $table->timestamps();
             $table->index(['created_at', 'feed_id', 'read'], 'feed_post_idx');

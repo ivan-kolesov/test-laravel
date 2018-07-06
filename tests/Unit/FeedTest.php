@@ -6,12 +6,9 @@ use App\Http\Requests\FeedRequest;
 use App\Http\Requests\FeedUpdateRequest;
 use App\Repositories\FeedRepository;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FeedTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected const FEED_INVALID_URL = 'engadgetcom/rss.xml';
 
     public function testFeedRequestOnValidUrl(): void
