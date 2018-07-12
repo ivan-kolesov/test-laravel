@@ -15,13 +15,14 @@
 <script>
     export default {
         data() {
-            let initialState = JSON.parse(window.__INITIAL_STATE__) || {};
-
             return {
-                feeds: initialState.feeds,
-                selectedFeedId: initialState.selectedFeed
+                selectedFeedId: this.parentSelectedFeedId
             };
         },
+        props: [
+            'feeds',
+            'parentSelectedFeedId'
+        ],
         methods: {
             fireFeedSelected(feedId, e) {
                 e.preventDefault();

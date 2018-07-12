@@ -18,16 +18,14 @@
 
     export default {
         mounted() {
-            let initialState = JSON.parse(window.__INITIAL_STATE__) || {};
-
-            if (initialState.selectedFeed !== 'undefined') {
-                this.setSelectedFeed(initialState.selectedFeed);
-            }
+            this.setSelectedFeed(this.parentSelectedFeedId);
             this.loadPosts();
         },
+        props: [
+            'parentSelectedFeedId'
+        ],
         data() {
             return {
-                selectedFeed: null,
                 fromDate: null,
                 page: 1,
                 posts: []

@@ -17,8 +17,6 @@ window.Event = new Vue();
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('posts', require('./components/PostsComponent.vue'));
-Vue.component('feeds-list', require('./components/FeedsComponent.vue'));
 Vue.component('index', require('./components/IndexComponent.vue'));
 Vue.component('add-feed-popup', require('./components/AddFeedPopupComponent.vue'));
 Vue.component('edit-feed-popup', require('./components/EditFeedPopupComponent.vue'));
