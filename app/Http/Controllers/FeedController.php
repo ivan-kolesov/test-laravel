@@ -28,6 +28,11 @@ class FeedController extends Controller
             ->with('selectedFeed', $feedId);
     }
 
+    public function getAll(): JsonResponse
+    {
+        return new JsonResponse($this->feedRepository->getAll());
+    }
+
     public function add(FeedRequest $feedRequest): JsonResponse
     {
         $feedRequest->populateNameByUrl();

@@ -14,6 +14,7 @@
 Route::get('/{feedId?}', 'FeedController@index')->name('home');
 
 Route::group(['prefix' => 'feed'], function () {
+    Route::post('get_all', 'FeedController@getAll');
     Route::post('add', 'FeedController@add');
     Route::post('update', 'FeedController@update');
     Route::post('remove', 'FeedController@remove');
