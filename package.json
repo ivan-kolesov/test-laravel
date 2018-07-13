@@ -18,5 +18,7 @@
         "lodash": "^4.17.4",
         "vue": "^2.5.7"
     },
-    "dependencies": {}
+    "dependencies": {
+        "bootstrap-vue": "^2.0.0-rc.11"
+    }
 }

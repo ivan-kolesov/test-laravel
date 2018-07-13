@@ -9,7 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-window.Event = new Vue();
+window.EventBus = new Vue();
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -18,9 +18,11 @@ window.Event = new Vue();
  */
 
 Vue.component('index', require('./components/IndexComponent.vue'));
-Vue.component('add-feed-popup', require('./components/AddFeedPopupComponent.vue'));
 Vue.component('edit-feed-popup', require('./components/EditFeedPopupComponent.vue'));
 Vue.component('remove-feed-popup', require('./components/RemoveFeedPopupComponent.vue'));
+
+import BootstrapVue from 'bootstrap-vue';
+Vue.use(BootstrapVue);
 
 const app = new Vue({
     el: '#app'

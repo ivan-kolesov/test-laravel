@@ -1,30 +1,37 @@
 <template>
-    <div class="row">
-        <div class="col-4">
-            <div>
-                <a href="#" class="btn btn-primary" role="button" v-on:click="showAddFeedPopup">Add a feed</a>
-                <br/>
-                <br/>
-            </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <div>
+                    <b-link class="btn btn-primary" role="button" v-b-modal.modal-add-feed>Add a feed</b-link>
+                    <br/>
+                    <br/>
+                </div>
 
-            <feeds-list :feeds="feeds" :parentSelectedFeedId="selectedFeedId"></feeds-list>
+                <feeds-list :feeds="feeds" :parentSelectedFeedId="selectedFeedId"></feeds-list>
+            </div>
+            <div class="col-8">
+                <posts :parentSelectedFeedId="selectedFeedId"></posts>
+                <button type="button" class="btn btn-primary btn-lg btn-block"
+                        v-on:click="fireLoadPosts"
+                        v-bind:class="{hidden: !isDisplayLoadMoreButton}">Get more</button>
+            </div>
         </div>
-        <div class="col-8">
-            <posts :parentSelectedFeedId="selectedFeedId"></posts>
-            <button type="button" class="btn btn-primary btn-lg btn-block"
-                    v-on:click="fireLoadPosts"
-                    v-bind:class="{hidden: !isDisplayLoadMoreButton}">Get more</button>
-        </div>
+
+        <add-feed-popup></add-feed-popup>
+        <edit-feed-popup></edit-feed-popup>
+        <remove-feed-popup></remove-feed-popup>
     </div>
 </template>
 
 <script>
     import Feeds from './FeedsComponent';
     import Posts from './PostsComponent';
+    import AddFeedPopup from './AddFeedPopupComponent';
 
     export default {
         created() {
-            Event.$on('display-load-more-button', (flag) => {
+            EventBus.$on('display-load-more-button', (flag) => {
                 this.isDisplayLoadMoreButton = flag;
             });
         },
@@ -39,20 +46,15 @@
         },
         components: {
             'feeds-list': Feeds,
-            'posts': Posts
+            'posts': Posts,
+            'add-feed-popup': AddFeedPopup
         },
         methods: {
-            showAddFeedPopup(e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                $('#modal-add-feed').modal();
-            },
             fireLoadPosts(e) {
                 e.preventDefault();
                 e.stopPropagation();
 
-                Event.$emit('load-posts');
+                EventBus.$emit('load-posts');
             }
         }
     }

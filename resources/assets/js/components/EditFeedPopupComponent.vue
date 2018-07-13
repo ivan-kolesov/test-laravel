@@ -28,7 +28,7 @@
 
     export default {
         created() {
-            Event.$on('edit-feed-popup', (feed) => {
+            EventBus.$on('edit-feed-popup', (feed) => {
                 this.url = feed.url;
                 this.feedId = feed.id;
 

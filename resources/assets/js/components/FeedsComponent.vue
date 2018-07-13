@@ -39,19 +39,19 @@
                 e.stopPropagation();
 
                 this.selectedFeedId = feedId;
-                Event.$emit('select-feed', feedId);
+                EventBus.$emit('select-feed', feedId);
             },
             fireEditFeedPopup(feed, e) {
                 e.preventDefault();
                 e.stopPropagation();
 
-                Event.$emit('edit-feed-popup', feed);
+                EventBus.$emit('edit-feed-popup', feed);
             },
             fireRemoveFeedPopup(feed, e) {
                 e.preventDefault();
                 e.stopPropagation();
 
-                Event.$emit('remove-feed-popup', feed);
+                EventBus.$emit('remove-feed-popup', feed);
             }
         }
     }

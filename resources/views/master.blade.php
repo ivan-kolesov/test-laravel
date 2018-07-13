@@ -12,7 +12,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-    {!! HTML::style('css/bootstrap.min.css') !!}
     {!! HTML::style('css/app.css') !!}
 
 </head>

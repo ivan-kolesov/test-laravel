@@ -2,7 +2,7 @@
     <ul class="feed-post-list">
         <li v-for="post in posts" v-on:click.once="postMarkRead(post)" v-bind:class="{read: post.read}" class="border">
             <span class="date">{{ post.created_at }}</span>
-            <span class="title">{{ post.title }}</span>
+            <span class="title" v-html="post.title"></span>
             <div class="detailed" v-bind:class="{hidden: !post.read}">
                 <span class="description" v-html="post.description"></span>
                 <span class="link">
@@ -36,13 +36,13 @@
             }
         },
         created() {
-            Event.$on('select-feed', (feedId) => {
+            EventBus.$on('select-feed', (feedId) => {
                 this.setSelectedFeed(feedId);
                 this.clearPosts();
                 this.loadPosts();
             });
 
-            Event.$on('load-posts', () => {
+            EventBus.$on('load-posts', () => {
                 this.loadPosts();
             });
         },
@@ -76,9 +76,9 @@
 
                     if (responseData.hasMore) {
                         this.incrementPage();
-                        Event.$emit('display-load-more-button', true);
+                        EventBus.$emit('display-load-more-button', true);
                     } else {
-                        Event.$emit('display-load-more-button', false);
+                        EventBus.$emit('display-load-more-button', false);
                     }
                 });
             },

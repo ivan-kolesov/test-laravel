@@ -25,7 +25,7 @@
 
     export default {
         created() {
-            Event.$on('remove-feed-popup', (feed) => {
+            EventBus.$on('remove-feed-popup', (feed) => {
                 $('#modal-confirm-remove-feed').modal();
 
                 this.url = feed.url;

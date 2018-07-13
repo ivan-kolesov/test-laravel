@@ -9,12 +9,8 @@
         ])';
     </script>
 
-    <div class="container" id="app">
+    <div id="app">
         <index></index>
-
-        <add-feed-popup></add-feed-popup>
-        <edit-feed-popup></edit-feed-popup>
-        <remove-feed-popup></remove-feed-popup>
     </div>
 
     @include('modals.updatedFeed')
