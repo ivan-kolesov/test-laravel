@@ -21,7 +21,6 @@
 @yield('content')
 
 {{ HTML::script('js/app.js') }}
-{{ HTML::script('js/bootstrap.min.js') }}
 
 @yield('scripts')
 

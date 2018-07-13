@@ -13,6 +13,4 @@
         <index></index>
     </div>
 
-    @include('modals.updatedFeed')
-
 @endsection

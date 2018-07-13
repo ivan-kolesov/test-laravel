@@ -18,8 +18,6 @@ window.EventBus = new Vue();
  */
 
 Vue.component('index', require('./components/IndexComponent.vue'));
-Vue.component('edit-feed-popup', require('./components/EditFeedPopupComponent.vue'));
-Vue.component('remove-feed-popup', require('./components/RemoveFeedPopupComponent.vue'));
 
 import BootstrapVue from 'bootstrap-vue';
 Vue.use(BootstrapVue);

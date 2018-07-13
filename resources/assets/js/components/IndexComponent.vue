@@ -2,8 +2,8 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <div>
-                    <b-link class="btn btn-primary" role="button" v-b-modal.modal-add-feed>Add a feed</b-link>
+                <div class="container">
+                    <b-link class="btn btn-primary" v-b-modal.modal-add-feed>Add a feed</b-link>
                     <br/>
                     <br/>
                 </div>
@@ -19,8 +19,6 @@
         </div>
 
         <add-feed-popup></add-feed-popup>
-        <edit-feed-popup></edit-feed-popup>
-        <remove-feed-popup></remove-feed-popup>
     </div>
 </template>
 
