@@ -14,15 +14,25 @@
 
 <script>
     export default {
+        mounted() {
+            this.selectedFeedId = this.parentSelectedFeedId;
+        },
         data() {
             return {
-                selectedFeedId: this.parentSelectedFeedId
+                selectedFeedId: null
             };
         },
-        props: [
-            'feeds',
-            'parentSelectedFeedId'
-        ],
+        props: {
+            feeds: {
+                type: Array,
+                required: true
+            },
+            parentSelectedFeedId: {
+                type: Number,
+                required: false,
+                default: null
+            }
+        },
         methods: {
             fireFeedSelected(feedId, e) {
                 e.preventDefault();

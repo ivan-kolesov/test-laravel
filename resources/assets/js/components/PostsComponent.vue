@@ -21,9 +21,13 @@
             this.setSelectedFeed(this.parentSelectedFeedId);
             this.loadPosts();
         },
-        props: [
-            'parentSelectedFeedId'
-        ],
+        props: {
+            parentSelectedFeedId: {
+                type: Number,
+                required: false,
+                default: null
+            }
+        },
         data() {
             return {
                 fromDate: null,
@@ -72,9 +76,9 @@
 
                     if (responseData.hasMore) {
                         this.incrementPage();
-                        $('.js-load-more-content').show();
+                        Event.$emit('display-load-more-button', true);
                     } else {
-                        $('.js-load-more-content').hide();
+                        Event.$emit('display-load-more-button', false);
                     }
                 });
             },

@@ -11,7 +11,9 @@
         </div>
         <div class="col-8">
             <posts :parentSelectedFeedId="selectedFeedId"></posts>
-            <button type="button" class="btn btn-primary btn-lg btn-block js-load-more-content hidden" v-on:click="fireLoadPosts">Get more</button>
+            <button type="button" class="btn btn-primary btn-lg btn-block"
+                    v-on:click="fireLoadPosts"
+                    v-bind:class="{hidden: !isDisplayLoadMoreButton}">Get more</button>
         </div>
     </div>
 </template>
@@ -21,12 +23,18 @@
     import Posts from './PostsComponent';
 
     export default {
+        created() {
+            Event.$on('display-load-more-button', (flag) => {
+                this.isDisplayLoadMoreButton = flag;
+            });
+        },
         data() {
             let initialState = JSON.parse(window.__INITIAL_STATE__) || {};
 
             return {
                 feeds: initialState.feeds,
-                selectedFeedId: initialState.selectedFeed !== 'undefined' ? initialState.selectedFeed : null
+                selectedFeedId: initialState.selectedFeed !== 'undefined' ? parseInt(initialState.selectedFeed) : null,
+                isDisplayLoadMoreButton: true
             };
         },
         components: {
