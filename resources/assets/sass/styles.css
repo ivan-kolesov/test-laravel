@@ -4,6 +4,7 @@
 
 ul.feed-list {
     list-style-type: none;
+    cursor: pointer;
 }
 
 ul.feed-post-list li {
