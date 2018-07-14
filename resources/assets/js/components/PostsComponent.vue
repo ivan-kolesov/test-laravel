@@ -1,19 +1,24 @@
 <template>
-    <ul class="feed-post-list">
-        <li v-for="post in posts" v-on:click.once="postMarkRead(post)" v-bind:class="{read: post.read}" class="border">
-            <span class="date">{{ post.created_at }}</span>
-            <span class="title" v-html="post.title"></span>
-            <div class="detailed" v-bind:class="{hidden: !post.read}">
-                <div class="actions">
-                    <a href="#" v-on:click.once="postMarkUnRead(post)">Mark unread</a>
+    <div class="container">
+        <ul class="feed-post-list">
+            <li v-for="post in posts" v-on:click.once="postMarkRead(post)" v-bind:class="{read: post.read}" class="border">
+                <span class="date">{{ post.created_at }}</span>
+                <span class="title" v-html="post.title"></span>
+                <div class="detailed" v-bind:class="{hidden: !post.read}">
+                    <div class="actions">
+                        <a href="#" v-on:click.once="postMarkUnRead(post)">Mark unread</a>
+                    </div>
+                    <div class="description" v-html="post.description"></div>
+                    <div class="link">
+                        <a href="#" v-bind:href="post.permalink" target="_blank">Read more</a>
+                    </div>
                 </div>
-                <div class="description" v-html="post.description"></div>
-                <div class="link">
-                    <a href="#" v-bind:href="post.permalink" target="_blank">Read more</a>
-                </div>
-            </div>
-        </li>
-    </ul>
+            </li>
+        </ul>
+
+        <button type="button" class="btn btn-primary btn-lg btn-block"
+                v-on:click="loadPosts" v-if="displayLoadMoreButton">Get more</button>
+    </div>
 </template>
 
 <script>
@@ -35,7 +40,8 @@
             return {
                 fromDate: null,
                 page: 1,
-                posts: []
+                posts: [],
+                displayLoadMoreButton: false
             }
         },
         created() {
@@ -79,9 +85,9 @@
 
                     if (responseData.hasMore) {
                         this.incrementPage();
-                        EventBus.$emit('display-load-more-button', true);
+                        this.displayLoadMoreButton = true;
                     } else {
-                        EventBus.$emit('display-load-more-button', false);
+                        this.displayLoadMoreButton = false;
                     }
                 });
             },
