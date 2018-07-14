@@ -4,10 +4,13 @@
             <span class="date">{{ post.created_at }}</span>
             <span class="title" v-html="post.title"></span>
             <div class="detailed" v-bind:class="{hidden: !post.read}">
-                <span class="description" v-html="post.description"></span>
-                <span class="link">
+                <div class="actions">
+                    <a href="#" v-on:click.once="postMarkUnRead(post)">Mark unread</a>
+                </div>
+                <div class="description" v-html="post.description"></div>
+                <div class="link">
                     <a href="#" v-bind:href="post.permalink" target="_blank">Read more</a>
-                </span>
+                </div>
             </div>
         </li>
     </ul>
@@ -91,7 +94,58 @@
                 };
                 post.read = true;
                 axios.post('/feed/mark_read', data);
+            },
+            postMarkUnRead(post) {
+                let data = {
+                    id: post.id
+                };
+                post.read = false;
+                axios.post('/feed/mark_unread', data);
             }
         }
     }
 </script>
+
+<style>
+    ul.feed-post-list li {
+        list-style-type: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    ul.feed-post-list li img {
+        max-width: 100%;
+    }
+
+    ul.feed-post-list li:hover {
+        background: #c4e3f3;
+    }
+
+    ul.feed-post-list li .date {
+        display: block;
+        font-style: italic;
+    }
+
+    ul.feed-post-list li .title {
+        display: block;
+        font-weight: bold;
+    }
+
+    ul.feed-post-list li .description {
+        display: block;
+        font-style: italic;
+    }
+
+    ul.feed-post-list li .link {
+        display: block;
+        font-style: italic;
+        font-size: 90%;
+        color: #5e5d5d;
+    }
+
+    ul.feed-post-list li.read {
+        padding: 10px;
+        list-style: none;
+        color: #9d9d9d;
+    }
+</style>

@@ -81,3 +81,10 @@
         }
     }
 </script>
+
+<style>
+    ul.feed-list {
+        list-style-type: none;
+        cursor: pointer;
+    }
+</style>
