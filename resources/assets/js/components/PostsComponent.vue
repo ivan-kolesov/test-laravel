@@ -1,30 +1,24 @@
 <template>
     <div class="container">
         <ul class="feed-post-list">
-            <li v-for="post in posts" v-on:click.once="postMarkRead(post)" v-bind:class="{read: post.read}" class="border">
-                <span class="date">{{ post.created_at }}</span>
-                <span class="title" v-html="post.title"></span>
-                <div class="detailed" v-bind:class="{hidden: !post.read}">
-                    <div class="actions">
-                        <a href="#" v-on:click.once="postMarkUnRead(post)">Mark unread</a>
-                    </div>
-                    <div class="description" v-html="post.description"></div>
-                    <div class="link">
-                        <a href="#" v-bind:href="post.permalink" target="_blank">Read more</a>
-                    </div>
-                </div>
+            <li v-for="post in posts" class="border">
+                <post :post="post"></post>
             </li>
         </ul>
 
         <button type="button" class="btn btn-primary btn-lg btn-block"
-                v-on:click="loadPosts" v-if="displayLoadMoreButton">Get more</button>
+                @click="loadPosts" v-if="displayLoadMoreButton">Get more</button>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+    import Post from './PostComponent';
 
     export default {
+        components: {
+            'post': Post
+        },
         mounted() {
             this.setSelectedFeed(this.parentSelectedFeedId);
             this.loadPosts();
@@ -41,7 +35,7 @@
                 fromDate: null,
                 page: 1,
                 posts: [],
-                displayLoadMoreButton: false
+                displayLoadMoreButton: null
             }
         },
         created() {
@@ -93,20 +87,6 @@
             },
             clearPosts() {
                 this.posts = [];
-            },
-            postMarkRead(post) {
-                let data = {
-                    id: post.id
-                };
-                post.read = true;
-                axios.post('/feed/mark_read', data);
-            },
-            postMarkUnRead(post) {
-                let data = {
-                    id: post.id
-                };
-                post.read = false;
-                axios.post('/feed/mark_unread', data);
             }
         }
     }
@@ -117,41 +97,5 @@
         list-style-type: none;
         padding: 10px;
         cursor: pointer;
-    }
-
-    ul.feed-post-list li img {
-        max-width: 100%;
-    }
-
-    ul.feed-post-list li:hover {
-        background: #c4e3f3;
-    }
-
-    ul.feed-post-list li .date {
-        display: block;
-        font-style: italic;
-    }
-
-    ul.feed-post-list li .title {
-        display: block;
-        font-weight: bold;
-    }
-
-    ul.feed-post-list li .description {
-        display: block;
-        font-style: italic;
-    }
-
-    ul.feed-post-list li .link {
-        display: block;
-        font-style: italic;
-        font-size: 90%;
-        color: #5e5d5d;
-    }
-
-    ul.feed-post-list li.read {
-        padding: 10px;
-        list-style: none;
-        color: #9d9d9d;
     }
 </style>

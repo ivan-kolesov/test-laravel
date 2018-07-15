@@ -6,7 +6,7 @@
                 <input type="text" class="form-control" id="addFeedUrl" name="url" v-model="url" v-bind:class="{ 'is-invalid': isUrlInvalid }" />
                 <div class="invalid-feedback" v-html="urlErrorText"></div>
             </div>
-            <button type="button" class="btn btn-primary" v-on:click="addFeed">Add</button>
+            <button type="button" class="btn btn-primary" @click="addFeed">Add</button>
         </form>
     </b-modal>
 </template>
@@ -23,10 +23,7 @@
             };
         },
         methods: {
-            addFeed(e) {
-                e.preventDefault();
-                e.stopPropagation();
-
+            addFeed() {
                 let data = {
                     url: this.url
                 };

@@ -7,7 +7,7 @@
                     <input type="text" class="form-control" id="editFeedUrl" name="url" v-model="feed.url" v-bind:class="{'is-invalid': isUrlInvalid}"/>
                     <div class="invalid-feedback" v-html="urlErrorText"></div>
                 </div>
-                <button type="button" class="btn btn-primary" v-on:click="editFeed">Update</button>
+                <button type="button" class="btn btn-primary" @click="editFeed">Update</button>
             </form>
         </b-modal>
 
@@ -40,10 +40,7 @@
             };
         },
         methods: {
-            editFeed(e) {
-                e.preventDefault();
-                e.stopPropagation();
-
+            editFeed() {
                 let data = {
                     id: this.feed.id,
                     url: this.feed.url

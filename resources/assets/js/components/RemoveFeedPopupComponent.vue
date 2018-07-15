@@ -4,8 +4,8 @@
             Are you sure remove <span v-html="feed.url"></span> ?
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" v-on:click="hideModal">Cancel</button>
-            <button type="button" class="btn btn-danger" v-on:click="removeFeed">Confirm remove</button>
+            <button type="button" class="btn btn-secondary" @click="hideModal">Cancel</button>
+            <button type="button" class="btn btn-danger" @click="removeFeed">Confirm remove</button>
         </div>
     </b-modal>
 </template>
@@ -27,10 +27,7 @@
             }
         },
         methods: {
-            removeFeed(e) {
-                e.preventDefault();
-                e.stopPropagation();
-
+            removeFeed() {
                 let data = {
                     id: this.feed.id
                 };
