@@ -1,9 +1,7 @@
 <template>
     <div class="container">
         <ul class="feed-post-list">
-            <li v-for="post in posts" class="border">
-                <post :post="post"></post>
-            </li>
+            <post v-for="post in posts" :key="post.id" :post="post"></post>
         </ul>
 
         <button type="button" class="btn btn-primary btn-lg btn-block"

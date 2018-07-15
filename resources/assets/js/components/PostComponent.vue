@@ -1,5 +1,5 @@
 <template>
-    <div @click.once="markRead(post)" v-bind:class="{read: post.read}">
+    <li @click.once="markRead(post)" v-bind:class="{read: post.read}" class="border">
         <span class="date">{{ post.created_at }}</span>
         <span class="title" v-html="post.title"></span>
         <div class="detailed" v-if="post.read">
@@ -11,7 +11,7 @@
                 <a href="#" v-bind:href="post.permalink" target="_blank">Read more</a>
             </div>
         </div>
-    </div>
+    </li>
 </template>
 
 <script>
@@ -74,7 +74,7 @@
         color: #5e5d5d;
     }
 
-    ul.feed-post-list li .read {
+    ul.feed-post-list li.read {
         padding: 10px;
         list-style: none;
         color: #9d9d9d;
