@@ -3,7 +3,7 @@
         <form>
             <div class="form-group">
                 <label for="addFeedUrl">Url</label>
-                <input type="text" class="form-control" id="addFeedUrl" name="url" v-model="url" v-bind:class="{ 'is-invalid': isUrlInvalid }" />
+                <input type="text" class="form-control" id="addFeedUrl" name="url" v-model.trim="url" v-bind:class="{ 'is-invalid': isUrlInvalid }" />
                 <div class="invalid-feedback" v-html="urlErrorText"></div>
             </div>
             <button type="button" class="btn btn-primary" @click="addFeed">Add</button>

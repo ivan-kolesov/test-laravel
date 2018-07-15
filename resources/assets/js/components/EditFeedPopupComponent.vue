@@ -4,7 +4,7 @@
             <form>
                 <div class="form-group">
                     <label for="editFeedUrl">Url</label>
-                    <input type="text" class="form-control" id="editFeedUrl" name="url" v-model="feed.url" v-bind:class="{'is-invalid': isUrlInvalid}"/>
+                    <input type="text" class="form-control" id="editFeedUrl" name="url" v-model.trim="feed.url" v-bind:class="{'is-invalid': isUrlInvalid}"/>
                     <div class="invalid-feedback" v-html="urlErrorText"></div>
                 </div>
                 <button type="button" class="btn btn-primary" @click="editFeed">Update</button>
