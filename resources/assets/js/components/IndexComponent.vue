@@ -12,7 +12,6 @@
             </div>
             <div class="col-8">
                 <posts :parentSelectedFeedId="selectedFeedId"></posts>
-
             </div>
         </div>
 

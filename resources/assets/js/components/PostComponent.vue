@@ -1,14 +1,14 @@
 <template>
-    <li @click.once="markRead(post)" v-bind:class="{read: post.read}" class="border">
+    <li @click="markRead(post)" v-bind:class="{read: post.read}" class="border">
         <span class="date">{{ post.created_at }}</span>
         <span class="title" v-html="post.title"></span>
         <div class="detailed" v-if="post.read">
             <div class="actions">
-                <a href="#" @click.once.prevent.stop="markUnRead(post)">Mark unread</a>
+                <a href="#" @click.prevent.stop="markUnRead(post)">Mark unread</a>
             </div>
             <div class="description" v-html="post.description"></div>
             <div class="link">
-                <a href="#" v-bind:href="post.permalink" target="_blank">Read more</a>
+                <a v-bind:href="post.permalink" target="_blank">Read more</a>
             </div>
         </div>
     </li>
@@ -26,6 +26,10 @@
         },
         methods: {
             markRead(post) {
+                if (post.read) {
+                    return;
+                }
+
                 let data = {
                     id: post.id
                 };
@@ -33,6 +37,10 @@
                 axios.post('/feed/mark_read', data);
             },
             markUnRead(post) {
+                if (!post.read) {
+                    return;
+                }
+
                 let data = {
                     id: post.id
                 };
