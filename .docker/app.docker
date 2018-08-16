@@ -1,16 +1,18 @@
 FROM php:7.2-fpm
 
+RUN DEBIAN_FRONTEND=noninteractive
+
 COPY . /var/www
 
 RUN apt-get update -y && apt-get install -y openssl git gnupg libpng-dev
 
-  # Composer
+# Composer
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer && \
 chmod +x /usr/local/bin/composer && \
 composer self-update --preview
 
-  # Node.js
+# Node.js
 RUN curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
 RUN bash nodesource_setup.sh
 RUN apt-get install nodejs -y
