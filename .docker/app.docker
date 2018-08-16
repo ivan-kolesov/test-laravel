@@ -20,5 +20,9 @@ RUN npm install npm@6.3.0 -g
 
 WORKDIR /var/www
 
+RUN touch database/database.sqlite
+RUN php artisan migrate
+RUN cp .env-example .env
+
 RUN npm install
 RUN npm run prod

@@ -47,7 +47,6 @@ You can seed feed list with test data, run in console `php artisan db:seed`
 ### 5. Build assets
 
 You have to have yarn or node to build assets.
-The project has already built assets, but if you want to renew them just:
 
 Run in console `yarn install` or `npm install`.
 
