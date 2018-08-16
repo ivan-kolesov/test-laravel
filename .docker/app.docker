@@ -1,14 +1,22 @@
 FROM php:7.2-fpm
 
-RUN apt-get update -y && apt-get install -y openssl git gnupg
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
-RUN apt-get install -y nodejs
+COPY . /var/www
 
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update -y && apt-get install -y yarn
+RUN apt-get update -y && apt-get install -y openssl git gnupg libpng-dev
+
+  # Composer
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer && \
+chmod +x /usr/local/bin/composer && \
+composer self-update --preview
+
+  # Node.js
+RUN curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
+RUN bash nodesource_setup.sh
+RUN apt-get install nodejs -y
+RUN npm install npm@6.3.0 -g
 
 WORKDIR /var/www
 
-RUN yarn install
+RUN npm install
+RUN npm run prod
