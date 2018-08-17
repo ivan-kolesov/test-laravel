@@ -22,12 +22,12 @@ RUN npm install npm@6.3.0 -g
 WORKDIR $APP_HOME
 
 # Prepare Laravel environment
+COPY .env-example ./.env
 RUN chmod -R 755 ./storage/
 RUN chown -R www-data:www-data ./storage
 RUN composer install --no-interaction --no-scripts
 RUN touch database/database.sqlite
 RUN php artisan migrate --force
-COPY .env-example ./.env
 
 # Build assets
 RUN npm install
