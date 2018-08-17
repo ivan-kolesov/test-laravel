@@ -22,6 +22,7 @@ RUN npm install npm@6.3.0 -g
 WORKDIR $APP_HOME
 
 # Prepare Laravel environment
+chmod -R 755 storage/
 RUN composer install --no-interaction --no-scripts
 RUN touch database/database.sqlite
 RUN php artisan migrate

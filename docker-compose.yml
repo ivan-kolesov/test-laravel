@@ -4,9 +4,11 @@ services:
     build:
       context: ./
       dockerfile: .docker/web.docker
-    volumes:
-    - ./public:/var/www/public
     container_name: web
+    volumes:
+    - static-content:/var/www/public
+    depends_on:
+    - app
     ports:
     - "8888:80"
     links:
@@ -17,6 +19,8 @@ services:
       dockerfile: .docker/app.docker
     container_name: app
     volumes:
-    - ./:/var/www
+    - static-content:/var/www/public
     environment:
     - APP_ENV=production
+volumes:
+  static-content:
