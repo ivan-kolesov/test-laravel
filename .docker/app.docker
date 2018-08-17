@@ -1,16 +1,17 @@
 FROM php:7.2-fpm
 
 RUN DEBIAN_FRONTEND=noninteractive
+ENV APP_HOME /var/www
 
-COPY . /var/www
+COPY . $APP_HOME
 
-RUN apt-get update -y && apt-get install -y openssl git gnupg libpng-dev
+RUN apt-get update -y && apt-get install -y openssl git zip unzip gnupg libpng-dev
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer && \
-chmod +x /usr/local/bin/composer && \
-composer self-update --preview
+  chmod +x /usr/local/bin/composer && \
+  composer self-update --preview
 
 # Node.js
 RUN curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
@@ -18,11 +19,14 @@ RUN bash nodesource_setup.sh
 RUN apt-get install nodejs -y
 RUN npm install npm@6.3.0 -g
 
-WORKDIR /var/www
+WORKDIR $APP_HOME
 
+# Prepare Laravel environment
+RUN composer install --no-interaction --no-scripts
 RUN touch database/database.sqlite
 RUN php artisan migrate
-RUN cp .env-example .env
+COPY .env-example ./.env
 
+# Build assets
 RUN npm install
 RUN npm run prod

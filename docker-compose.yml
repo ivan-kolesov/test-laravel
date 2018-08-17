@@ -5,7 +5,7 @@ services:
       context: ./
       dockerfile: .docker/web.docker
     volumes:
-    - ./:/var/www
+    - ./public:/var/www/public
     container_name: web
     ports:
     - "8888:80"
@@ -19,4 +19,4 @@ services:
     volumes:
     - ./:/var/www
     environment:
-    - NODE_ENV=production
+    - APP_ENV=production
